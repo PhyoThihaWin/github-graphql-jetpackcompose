@@ -1,0 +1,41 @@
+query SearchRepositories($first: Int, $before: String, $after: String ,$query: String!) {
+    search(
+        type: REPOSITORY,
+        first: $first,
+        before: $before,
+        after: $after,
+        query: $query
+    ) {
+        repos: edges {
+            repo: node {
+                ... on Repository {
+                    nameWithOwner
+                    url
+                    description
+                    stargazerCount
+                    languages(first: 1) {
+                        nodes {
+                            name
+                            color
+                        }
+                    }
+
+                    owner {
+                        ... on User {
+                            name
+                            url
+                            websiteUrl
+                            avatarUrl
+                        }
+                    }
+                }
+            }
+        }
+        pageInfo {
+            hasPreviousPage,
+            hasNextPage
+            startCursor
+            endCursor,
+        }
+    }
+}
